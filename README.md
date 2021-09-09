@@ -1,2 +1,2 @@
-# ansible-go-ipfs
-Ansible role for installing and configuring go-ipfs.
+# ansible-ipfs
+Ansible collection for IPFS.
