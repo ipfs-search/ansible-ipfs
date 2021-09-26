@@ -9,7 +9,7 @@ This collection uses [molecule]() for testing.
 2. Install packages for dependencies:
    a) Ubuntu: `sudo apt-get install python3-pip libssl-dev`
    b) CentOS: `sudo dnf install -y gcc python3-pip python3-devel openssl-devel python3-libselinux`
-4. Install [pipenv](https://pipenv.pypa.io/en/latest/): `pip install pipenv`
+4. Install [pipenv](https://pipenv.pypa.io/en/latest/): `pip install pipenv` (or manually install dependencies with `pip install molecule[ansible,lint,docker]`)
 5. Install Python dependencies: `pipenv install`
 
 ### Running tests
