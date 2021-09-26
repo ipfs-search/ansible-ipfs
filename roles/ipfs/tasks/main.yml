@@ -35,7 +35,7 @@
   package:
     name: procps
   when: ansible_facts['os_family'] == "Debian"
-  # This fails in Docker
+# Doesn't work in Docker
 # - name: Increase UDP Receive Buffer Size for quic-go v0.19.x+
 #   sysctl:
 #     name: net.core.rmem_max
