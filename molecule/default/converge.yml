@@ -1,5 +1,7 @@
 ---
 - name: Converge
   hosts: all
+  vars:
+    ipfs_build_user: ipfs_build
   roles:
     - ipfs
