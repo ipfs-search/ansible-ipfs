@@ -9,3 +9,4 @@ ipfs_group: "ipfs"
 ipfs_memlimit: 2G
 ipfs_profile: badgerds
 ipfs_ssl: true
+ipfs_hardened: true

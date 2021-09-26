@@ -1,64 +1,92 @@
+# Source: https://github.com/ipfs/go-ipfs/blob/master/misc/systemd/ipfs-hardened.service
+#
+# This file will be overwritten on package upgrades, avoid customizations here.
+#
+# To make persistant changes, create file in
+# "/etc/systemd/system/ipfs.service.d/overwrite.conf" with
+# `systemctl edit ipfs.service`. This file will be parsed after this
+# file has been parsed.
+#
+# To overwrite a variable, like ExecStart you have to specify it once
+# blank and a second time with a new value, like:
+# ExecStart=
+# ExecStart=/usr/bin/ipfs daemon --flag1 --flag2
+#
+# For more info about custom unit files see systemd.unit(5).
+
+# This service file enables systemd-hardening features compatible with IPFS,
+# while breaking compability with the fuse-mount function. Use this one only
+# if you don't need the fuse-mount functionality.
+
 [Unit]
-Description=IPFS daemon
+Description=InterPlanetary File System (IPFS) daemon
+Documentation=https://docs.ipfs.io/
+After=network.target
 
 [Service]
-ExecStart={{ ipfs_binary }} daemon --migrate
-MemoryAccounting=yes
-MemoryLimit={{ ipfs_memlimit }}
-Environment="IPFS_PATH={{ ipfs_path }}"
-User={{ ipfs_user }}
-Group={{ ipfs_group }}
-
-PermissionsStartOnly=true
-
-# Restart/recovery behaviour
-Restart=always
-RestartSec=3
-StartLimitBurst=40
-StartLimitInterval=120
-
-LimitNOFILE=65536
-KillSignal=SIGINT
-Type=notify
-
-# Hardening
+{% if ipfs_hardened %}
+# hardening
+ReadWritePaths="{{ ipfs_path }}"
 NoNewPrivileges=true
-ProtectSystem=true
+ProtectSystem=strict
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
 PrivateDevices=true
 DevicePolicy=closed
+ProtectControlGroups=true
 RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+ProtectHostname=true
 PrivateTmp=true
+ProtectClock=true
+LockPersonality=true
+RestrictNamespaces=true
+RestrictRealtime=true
+MemoryDenyWriteExecute=true
 SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallFilter=~@privileged
 ProtectHome=true
+RemoveIPC=true
+RestrictSUIDSGID=true
 CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+{% endif %}
 
-# enable for 1-1024 port listening
-# AmbientCapabilities=CAP_NET_BIND_SERVICE
+{% if ipfs_memlimit %}
+MemoryAccounting=yes
+MemoryLimit={{ ipfs_memlimit }}
+{% endif %}
 
-# As yet unsupported options
-# PrivateUser=true
-# ReadOnlyPaths=*
-# ReadWritePaths="{{ ipfs_path }}"
-# MemoryMax=512M
-# MemorySwapMax=0
-# ProtectSystem=strict
-# ProtectKernelTunables=true
-# ProtectKernelModules=true
-# ProtectKernelLogs=true
-# ProtectControlGroups=true
-# ProtectHostname=true
-# ProtectClock=true
-# LockPersonality=true
-# RestrictNamespaces=true
-# RestrictRealtime=true
-# MemoryDenyWriteExecute=true
-# SystemCallFilter=@system-service
-# SystemCallFilter=~@privileged
-# RemoveIPC=true
-# RestrictSUIDSGID=true
+# enable to specify a higher limit for open files/connections
+LimitNOFILE=1000000
 
-# Disable swapping
-# ExecStartPost=/bin/bash -c "echo 0 > /sys/fs/cgroup/memory/system.slice/ipfs.service/memory.swappiness"
+# don't use swap
+MemorySwapMax=0
+
+# Don't timeout on startup. Opening the IPFS repo can take a long time in some cases (e.g., when
+# badger is recovering) and migrations can delay startup.
+#
+# Ideally, we'd be a bit smarter about this but there's no good way to do that without hooking
+# systemd dependencies deeper into go-ipfs.
+TimeoutStartSec=infinity
+
+Type=notify
+User={{ ipfs_user }}
+Group={{ ipfs_group }}
+StateDirectory=ipfs
+Environment=IPFS_PATH="{{ ipfs_path }}"
+ExecStart={{ ipfs_binary }} daemon --init --migrate
+Restart=on-failure
+KillSignal=SIGINT
 
 [Install]
 WantedBy=default.target
+
+## Old options we might or might not want.
+# PermissionsStartOnly=true
+
+# Restart/recovery behaviour
+# Restart=always
+# RestartSec=3
+# StartLimitBurst=40
+# StartLimitInterval=120
