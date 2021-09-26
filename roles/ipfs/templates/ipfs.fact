@@ -1,0 +1,3 @@
+#!/bin/sh
+
+env IPFS_PATH={{ ipfs_path }} {{ ipfs_binary }} id

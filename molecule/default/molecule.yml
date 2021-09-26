@@ -5,11 +5,11 @@ dependency:
     role-file: requirements.yml
 driver:
   name: docker
-  network:
-    # Note: this doesn't actually seem to work :'(
-    # Idea: allow setting buffer sysctl
-    - name: docker-cluster-network
-      driver: host
+  # network:
+  #   # Note: this doesn't actually seem to work :'(
+  #   # Idea: allow setting buffer sysctl
+  #   - name: docker-cluster-network
+  #     driver: host
 lint: |
   set -e
   yamllint .

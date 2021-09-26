@@ -1,12 +1,12 @@
 ---
-- name: Ensuring ipfs build
+- name: ensure ipfs build
   include_tasks: build.yml
-- name: Create ipfs user
+- name: create ipfs group
   group:
     name: "{{ ipfs_group }}"
     system: true
     state: present
-- name: Create ipfs group
+- name: create ipfs user
   user:
     name: "{{ ipfs_user }}"
     comment: "go-ipfs daemon"
@@ -14,14 +14,8 @@
     system: true
     state: present
     home: "{{ ipfs_path }}"
+    create_home: yes
     shell: /usr/sbin/nologin
-- name: Create ipfs path
-  file:
-    path: "{{ ipfs_path }}"
-    owner: "{{ ipfs_user }}"
-    group: "{{ ipfs_group }}"
-    mode: 0750
-    state: directory
 - name: initialize IPFS repository
   command: "{{ ipfs_binary }} init --profile={{ ipfs_profile }}"
   args:
@@ -30,23 +24,12 @@
     IPFS_PATH: "{{ ipfs_path }}"
   become: true
   become_user: "{{ ipfs_user }}"
-  # Debian doesn't have sysctl installed by default
-- name: sysctl installed
-  package:
-    name: procps
-  when: ansible_facts['os_family'] == "Debian"
-# Doesn't work in Docker
-# - name: Increase UDP Receive Buffer Size for quic-go v0.19.x+
-#   sysctl:
-#     name: net.core.rmem_max
-#     value: "2500000"
-#     state: present
-#   notify: restart ipfs
+- include_tasks: udp_receive_buffer.yml
 # Make public/listen IP configurable
 # Do not assume default IP
 # Do not assume IPv6
 # Set ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0])
-- name: Configure IPFS service
+- name: configure IPFS service
   template:
     src: ipfs.service
     dest: /etc/systemd/system/ipfs.service
@@ -85,12 +68,14 @@
 #     dest: "{{ ipfs_path }}/config"
 #     mode: 0640
 #   notify: restart ipfs
-- name: Enable IPFS service
+- name: enable IPFS service
   systemd:
     name: ipfs
     enabled: true
     state: started
     daemon_reload: true
+- name: setup IFPS facts
+  include_tasks: facts.yml
 # - name: ipfs convenience alias
 #   lineinfile:
 #     path: "{{ ansible_env.PWD }}/.bashrc" # Workaround https://github.com/ansible/ansible/issues/15901
