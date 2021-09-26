@@ -8,4 +8,4 @@
       service:
         name: ipfs
         state: stopped
-      ignore_errors: yes
+      ignore_errors: yes # noqa ignore-errors
