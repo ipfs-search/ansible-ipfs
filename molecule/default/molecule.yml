@@ -1,13 +1,24 @@
 ---
 dependency:
   name: galaxy
+  options:
+    requirements-file: requirements.yml
 driver:
   name: docker
+  network:
+    # Note: this doesn't actually seem to work :'(
+    # Idea: allow setting buffer sysctl
+    - name: docker-cluster-network
+      driver: host
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
 platforms:
   # Ref: https://github.com/geerlingguy/ansible-role-apache/blob/master/molecule/default/molecule.yml
   # - name: instance
   #   image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
-  #   command: ${MOLECULE_DOCKER_COMMAND:-""}
+    # command: ${MOLECULE_DOCKER_COMMAND:-""}
   #   volumes:
   #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
   #   privileged: true
@@ -18,18 +29,21 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
     pre_build_image: true
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
   - name: ubuntu-20.04
     image: "geerlingguy/docker-ubuntu2004-ansible:latest"
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
     pre_build_image: true
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
   - name: debian-11
     image: "geerlingguy/docker-debian11-ansible:latest"
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
     pre_build_image: true
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
 provisioner:
   name: ansible
   playbooks:

@@ -1,2 +1,6 @@
 ---
-# handlers file for ipfs
+- name: restart ipfs
+  systemd:
+    name: ipfs
+    state: restarted
+    daemon_reload: true

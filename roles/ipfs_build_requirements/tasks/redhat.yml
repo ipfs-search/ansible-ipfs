@@ -1,0 +1,7 @@
+---
+- name: Install RedHat build requirements
+  yum:
+    name:
+      - "@Development tools"
+      - openssl-devel
+    state: present

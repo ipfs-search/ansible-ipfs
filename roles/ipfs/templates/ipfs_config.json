@@ -6,9 +6,11 @@
     "API": "/ip4/127.0.0.1/tcp/5001",
     "Announce": [
       "/ip4/{{ ansible_default_ipv4.address }}/tcp/4001",
-      "/ip6/{{ ansible_default_ipv6.address }}/tcp/4001",
+      {% if 'address' in ansible_default_ipv6 %}
+        "/ip6/{{ ansible_default_ipv6.address }}/tcp/4001",
+        "/ip6/{{ ansible_default_ipv6.address }}/udp/4001/quic"
+      {% endif %}
       "/ip4/{{ ansible_default_ipv4.address }}/udp/4001/quic",
-      "/ip6/{{ ansible_default_ipv6.address }}/udp/4001/quic"
     ],
     "Gateway": "/ip4/127.0.0.1/tcp/8080",
     "NoAnnounce": [

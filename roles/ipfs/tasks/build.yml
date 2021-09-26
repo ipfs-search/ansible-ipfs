@@ -1,0 +1,57 @@
+---
+- name: Ensure ipfs build requirements
+  include_role:
+    name: ipfs_build_requirements
+    public: yes
+- name: "Build user exists"
+  user:
+    name: "{{ ipfs_build_user }}"
+    comment: "go-ipfs build user"
+    state: present
+- name: Build dir exists
+  file:
+    path: "{{ ipfs_build }}"
+    state: directory
+    mode: 0755
+    owner: "{{ ipfs_build_user }}"
+- name: Clone go-ipfs
+  git:
+    dest: "{{ ipfs_build }}"
+    repo: https://github.com/ipfs/go-ipfs.git
+    version: "{{ ipfs_version }}"
+  register: source
+  become: true
+  become_user: "{{ ipfs_build_user }}"
+- name: Check whether ipfs binary exists # noqa 503
+  # For extra robustness, e.g. when build fails and clone doesn't update
+  stat:
+    path: "{{ ipfs_binary }}"
+    get_attributes: false
+    get_checksum: false
+    get_mime: false
+  register: ipfs_binary_stat
+  when: not source.changed
+- block:
+  - block:
+    - name: clean go-ipfs
+      make:
+        chdir: "{{ ipfs_build }}"
+        target: clean
+    - name: make go-ipfs
+      make:
+        chdir: "{{ ipfs_build }}"
+        params: "{% if ipfs_ssl %}GOTAGS=openssl{% endif %}"
+        target: build
+    environment:
+      PATH: "{{ ansible_local.golang.general.home }}/bin:{{ ansible_env.PATH }}"
+    become: true
+    become_user: "{{ ipfs_build_user }}"
+  - name: Install ipfs binary
+    copy:
+      src: "{{ ipfs_build }}/cmd/ipfs/ipfs"
+      dest: "{{ ipfs_binary }}"
+      remote_src: True
+      mode: 0755
+    become: true
+    notify: restart ipfs
+  when: source.changed or not ipfs_binary_stat.stat.exists

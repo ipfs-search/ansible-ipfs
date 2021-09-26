@@ -2,6 +2,7 @@
 - name: Prepare
   hosts: all
   tasks:
+    # Make sure package cache is refreshed
     - name: Update package cache (RedHat)
       yum:
         update_cache: true

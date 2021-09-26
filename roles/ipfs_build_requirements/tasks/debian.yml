@@ -1,8 +1,9 @@
 ---
-- name: Install build requirements
+- name: Install Debian build requirements
   apt:
     pkg:
       - build-essential
       - libssl-dev
       - pkg-config
+      - git
     state: present
