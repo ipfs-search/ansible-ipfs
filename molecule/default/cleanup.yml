@@ -2,10 +2,10 @@
 - name: Cleanup
   hosts: all
   gather_facts: false
+  ignore_unreachable: yes
   tasks:
     - name: Stop ipfs daemon
       service:
         name: ipfs
         state: stopped
-      ignore_unreachable: yes
       ignore_errors: yes
