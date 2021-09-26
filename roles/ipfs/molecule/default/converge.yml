@@ -2,9 +2,6 @@
 - name: Converge
   hosts: all
   tasks:
-    - name: "Include ansible-ipfs"
-      include_role:
-        name: "ansible-ipfs"
     - name: "Include ipfs"
       include_role:
         name: "ipfs"
