@@ -1,10 +1,14 @@
 ---
-# This is an example playbook to execute Ansible tests.
-
 - name: Verify
   hosts: all
   gather_facts: false
   tasks:
-  - name: Example assertion
-    assert:
-      that: true
+  - name: Check if ipfs gateway is listening
+    wait_for:
+      port: 8080
+      delay: 5
+      timeout: 30
+  - name: Check if ipfs API is listening
+    wait_for:
+      port: 5001
+      timeout: 15
