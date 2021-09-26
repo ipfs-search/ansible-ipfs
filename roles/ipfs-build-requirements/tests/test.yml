@@ -1,6 +1,5 @@
 ---
-- name: Converge
-  hosts: all
+- hosts: localhost
+  remote_user: root
   roles:
     - ipfs-build-requirements
-    - ipfs

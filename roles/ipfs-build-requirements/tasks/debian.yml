@@ -1,0 +1,8 @@
+---
+- name: Install build requirements
+  apt:
+    pkg:
+      - build-essential
+      - libssl-dev
+      - pkg-config
+    state: present
