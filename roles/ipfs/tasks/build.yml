@@ -52,6 +52,7 @@
       dest: "{{ ipfs_binary }}"
       remote_src: True
       mode: 0755
+      owner: root
     become: true
     notify: restart ipfs
   when: source.changed or not ipfs_binary_stat.stat.exists
