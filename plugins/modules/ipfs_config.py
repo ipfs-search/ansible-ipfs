@@ -69,66 +69,126 @@ message:
     sample: 'goodbye'
 '''
 
-from ansible.module_utils.basic import AnsibleModule
+import json
+from ansible.module_utils.basic import AnsibleModule, heuristic_log_sanitize
 
 
-def run_module():
-    # define available arguments/parameters a user can pass to the module
-    module_args = dict(
-        name=dict(type='str', required=True),
-        new=dict(type='bool', required=False, default=False)
-    )
+class IPFSConfig(AnsibleModule):
+    def __init__(self):
+        """ Initialization of AnsibleModule and module specifics. """
+        super().__init__(
+            argument_spec=dict(
+                list_all=dict(required=False, type='bool', default=False),
+                name=dict(type='str'),
+                ipfs_path=dict(type='path', required=False),
+                value=dict(type='dict', required=False)
+            ),
+            mutually_exclusive=[['list_all', 'name'], ['list_all', 'value']],
+            required_one_of=[['list_all', 'name']],
+            supports_check_mode=True,
+        )
 
-    # seed the result dict in the object
-    # we primarily care about changed and state
-    # changed is if this module effectively modified the target
-    # state will include any data that you want your module to pass back
-    # for consumption, for example, in a subsequent task
-    result = dict(
-        changed=False,
-        original_message='',
-        message=''
-    )
+        # Perform local initialization
+        self._init()
 
-    # the AnsibleModule object will be our abstraction working with Ansible
-    # this includes instantiation, a couple of common attr would be the
-    # args/params passed to the execution, as well as if the module
-    # supports check mode
-    module = AnsibleModule(
-        argument_spec=module_args,
-        supports_check_mode=True
-    )
+    def _init(self):
+        """ Module-specific initialization. """
+        ipfs_binary = self.get_bin_path('ipfs', True)
+        self._base_args = [ipfs_binary, "config", "--json"]
+        self._results = dict(
+            changed=False,
+        )
+        self._command_debug = {}
 
-    # if the user is working with this module in only check mode we do not
-    # want to make any changes to the environment, just return the current
-    # state with no modifications
-    if module.check_mode:
-        module.exit_json(**result)
+    def _run_command(self, args):
+        (rc, stdout, stderr) = self.run_command(args)
 
-    # manipulate or modify the state as needed (this is going to be the
-    # part where your module will do what it needs to do)
-    result['original_message'] = module.params['name']
-    result['message'] = 'goodbye'
+        self._command_debug = dict(
+            cmd=self._clean_args(args),
+            rc=rc,
+            stdout=stdout,
+            stderr=stderr
+        )
 
-    # use whatever logic you need to determine whether or not this module
-    # made any modifications to your target
-    if module.params['new']:
-        result['changed'] = True
+        if rc != 0:
+            if 'key has no attributes' in stderr:
+                # Key not found returns None
+                return None
 
-    # during the execution of the module, if there is an exception or a
-    # conditional state that effectively causes a failure, run
-    # AnsibleModule.fail_json() to pass in the message and the result
-    if module.params['name'] == 'fail me':
-        module.fail_json(msg='You requested this to fail', **result)
+            msg = heuristic_log_sanitize(stderr.rstrip(), self.no_log_values)
+            self.fail_json(cmd=self._clean_args(args), rc=rc, stdout=stdout, stderr=stderr, msg=msg)
 
-    # in the event of a successful module execution, you will want to
-    # simple AnsibleModule.exit_json(), passing the key/value results
-    module.exit_json(**result)
+        if stdout:
+            try:
+                return json.loads(stdout)
+            except Exception as e:
+                self._results.update(self._command_debug)
+                self.fail_json('{}: {}'.format(type(e).__name__, e), **self._results)
 
+    def _list_all(self):
+        """ Wraps `ipfs config --json show`. """
+        args = self._base_args + ['show']
 
-def main():
-    run_module()
+        return self._run_command(args)
 
+    def _get_value(self, name):
+        """ Wraps `ipfs config --json -- <name>`. """
+        args = self._base_args + ['--', name]
+
+        return self._run_command(args)
+
+    def _set_value(self, name, value):
+        """ Wraps `ipfs config --json -- <name> <value>`. """
+        json_value = json.dumps(value)
+        args = self._base_args + ['--', name, json_value]
+        self._run_command(args)
+
+    def run(self):
+        """ Perform module action. """
+        if self.params['ipfs_path']:
+            self.run_command_environ_update['IPFS_PATH'] = self.params['ipfs_path']
+
+        name = self.params['name']
+        new_value = self.params['value']
+        list_all = self.params['list_all']
+
+        if list_all:
+            # Return all values
+            self._results.update(dict(value=self._list_all()))
+
+        else:
+            # Get specific value
+            orig_value = self._get_value(name)
+
+            if new_value:
+                # Conditionally update value
+                if orig_value != new_value:
+                    if not self.check_mode:
+                        self._set_value(name, new_value)
+
+                    self._results.update(dict(
+                        msg='setting changed',
+                        changed=True,
+                        # Original and final value, as dict
+                        orig_value=orig_value,
+                        value=new_value
+                    ))
+
+                    if self._diff:
+                        # Add string diff
+                        self._results['diff'] =dict(
+                            before_header=name + ' (before)',
+                            before=self.jsonify(orig_value),
+                            after_header=name + ' (after)',
+                            after=self.jsonify(new_value)
+                        )
+            else:
+                self._results['value'] = orig_value
+
+        if self._debug:
+            self._results.update(self._command_debug)
+
+        self.exit_json(**self._results)
 
 if __name__ == '__main__':
-    main()
+    IPFSConfig().run()
