@@ -32,10 +32,10 @@ before_script:
   - python3 --version
   - pip3 install pipenv --ignore-installed distlib
   - pipenv install --deploy
-  - ansible --version
-  - molecule --version
+  - pipenv run ansible --version
+  - pipenv run molecule --version
 
 molecule:
   stage: test
   script:
-    - molecule test
+    - pipenv run molecule test
