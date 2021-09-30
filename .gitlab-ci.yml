@@ -17,6 +17,8 @@ variables:
   # /certs/client so we only need to share this directory with the
   # volume mount in `config.toml`.
   DOCKER_TLS_CERTDIR: "/certs"
+  PY_COLORS: 1
+  ANSIBLE_FORCE_COLOR: '1'
 
 # Pip's cache doesn't store the python packages
 # https://pip.pypa.io/en/stable/reference/pip_install/#caching
@@ -38,6 +40,9 @@ before_script:
   - pipenv install --deploy
   - pipenv run ansible --version
   - pipenv run molecule --version
+
+lint:
+  stage:
 
 molecule:
   stage: test
