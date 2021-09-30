@@ -30,7 +30,7 @@ before_script:
     musl-dev libffi-dev openssl-dev openssh
   - docker info
   - python3 --version
-  - python3 -m pip install pipenv
+  - pip3 install pipenv --ignore-installed distlib
   - pipenv install --deploy
   - ansible --version
   - molecule --version
