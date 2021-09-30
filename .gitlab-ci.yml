@@ -38,10 +38,9 @@ before_script:
   - pipenv run ansible --version
   - pipenv run molecule --version
 
-lint:
-  stage:
-
 molecule:
   stage: test
+  tags:
+    - docker
   script:
     - pipenv run molecule test
