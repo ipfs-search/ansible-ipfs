@@ -1,9 +1,6 @@
 ---
 image: docker:stable-dind
 
-tags:
-  - docker
-
 services:
   - docker:dind
 
