@@ -1,0 +1,36 @@
+---
+image: docker:stable-dind
+
+services:
+  - docker:dind
+
+# Change pip's cache directory to be inside the project directory since we can
+# only cache local items.
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+# Pip's cache doesn't store the python packages
+# https://pip.pypa.io/en/stable/reference/pip_install/#caching
+#
+# If you want to also cache the installed packages, you have to install
+# them in a virtualenv and cache it as well.
+cache:
+  paths:
+    - .cache/pip
+
+before_script:
+  - apk add --no-cache
+    python3 python3-dev py3-pip gcc git curl build-base
+    autoconf automake py3-cryptography linux-headers
+    musl-dev libffi-dev openssl-dev openssh
+  - docker info
+  - python3 --version
+  - python3 -m pip install pipenv
+  - pipenv install --deploy
+  - ansible --version
+  - molecule --version
+
+molecule:
+  stage: test
+  script:
+    - molecule test
