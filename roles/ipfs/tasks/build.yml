@@ -1,9 +1,7 @@
 ---
-- name: Ensure ipfs build requirements
-  include_role:
-    name: ipfs_build_requirements
-    public: yes
-- name: "Build user exists"
+- include_tasks: "build_requirements_{{ ansible_facts['os_family'] | lower }}.yml" # noqa unnamed-task
+- include_tasks: "build_requirements_common.yml" # noqa unnamed-task
+- name: build user exists
   user:
     name: "{{ ipfs_build_user }}"
     comment: "go-ipfs build user"

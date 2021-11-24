@@ -1,6 +1,0 @@
-- include_tasks: "{{ ansible_facts['os_family'] | lower }}.yml" # noqa unnamed-task
-- name: Ensure golang's available for building
-  include_role:
-    name: golang
-    public: yes
-  when: ansible_local.golang.general.home is not defined

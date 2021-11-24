@@ -1,5 +1,5 @@
 ---
-- name: Install RedHat build requirements
+- name: install RedHat build requirements
   yum:
     name:
       - "@Development tools"

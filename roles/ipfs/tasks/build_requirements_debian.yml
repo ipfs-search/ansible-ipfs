@@ -1,5 +1,5 @@
 ---
-- name: Install Debian build requirements
+- name: install Debian build requirements
   apt:
     pkg:
       - build-essential
