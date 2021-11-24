@@ -6,13 +6,13 @@
     name: "{{ ipfs_build_user }}"
     comment: "go-ipfs build user"
     state: present
-- name: Build dir exists
+- name: build dir exists
   file:
     path: "{{ ipfs_build }}"
     state: directory
     mode: 0755
     owner: "{{ ipfs_build_user }}"
-- name: Clone go-ipfs
+- name: clone go-ipfs
   git:
     dest: "{{ ipfs_build }}"
     repo: https://github.com/ipfs/go-ipfs.git
@@ -20,7 +20,7 @@
   register: source
   become: true
   become_user: "{{ ipfs_build_user }}"
-- name: Check whether ipfs binary exists # noqa 503
+- name: check whether ipfs binary exists # noqa 503
   # For extra robustness, e.g. when build fails and clone doesn't update
   stat:
     path: "{{ ipfs_binary }}"
@@ -44,7 +44,7 @@
       PATH: "{{ ansible_local.golang.general.home }}/bin:{{ ansible_env.PATH }}"
     become: true
     become_user: "{{ ipfs_build_user }}"
-  - name: Install ipfs binary
+  - name: install ipfs binary
     copy:
       src: "{{ ipfs_build }}/cmd/ipfs/ipfs"
       dest: "{{ ipfs_binary }}"
