@@ -1,7 +1,7 @@
-Role Name
-=========
+IPFS
+====
 
-A brief description of the role goes here.
+Build and install go-ipfs daemon.
 
 Requirements
 ------------
