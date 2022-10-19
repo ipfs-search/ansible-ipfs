@@ -10,14 +10,14 @@
     state: present
 - name: create build path
   file:
-    path: "{{ ipfs_build }}"
+    path: "{{ ipfs_build_path }}"
     state: directory
     mode: 0755
     owner: "{{ ipfs_build_user }}"
 - name: clone go-ipfs
   git:
-    dest: "{{ ipfs_build }}"
-    repo: https://github.com/ipfs/go-ipfs.git
+    dest: "{{ ipfs_build_path }}"
+    repo: "{{ ipfs_repo }}"
     version: "{{ ipfs_version }}"
   register: source
   become: true
@@ -35,12 +35,12 @@
   - block:
     - name: clean go-ipfs
       make:
-        chdir: "{{ ipfs_build }}"
+        chdir: "{{ ipfs_build_path }}"
         target: clean
     - name: make go-ipfs
       make:
-        chdir: "{{ ipfs_build }}"
-        params: "{% if ipfs_ssl %}GOTAGS=openssl{% endif %}"
+        chdir: "{{ ipfs_build_path }}"
+        params: "{% if ipfs_openssl %}GOTAGS=openssl{% endif %}"
         target: build
     environment:
       PATH: "{{ ansible_local.golang.general.home }}/bin:{{ ansible_env.PATH }}"
@@ -48,7 +48,7 @@
     become_user: "{{ ipfs_build_user }}"
   - name: Install ipfs binary
     copy:
-      src: "{{ ipfs_build }}/cmd/ipfs/ipfs"
+      src: "{{ ipfs_build_path }}/cmd/ipfs/ipfs"
       dest: "{{ ipfs_binary }}"
       remote_src: True
       mode: 0755
