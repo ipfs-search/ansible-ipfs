@@ -1,20 +1,20 @@
 ---
-- name: Ensure ipfs build requirements
+- name: ensure installation of IPFS build requirements
   include_role:
     name: ipfs_build_requirements
     public: yes
-- name: "Build user exists"
+- name: create build user
   user:
     name: "{{ ipfs_build_user }}"
     comment: "go-ipfs build user"
     state: present
-- name: Build dir exists
+- name: create build path
   file:
     path: "{{ ipfs_build }}"
     state: directory
     mode: 0755
     owner: "{{ ipfs_build_user }}"
-- name: Clone go-ipfs
+- name: clone go-ipfs
   git:
     dest: "{{ ipfs_build }}"
     repo: https://github.com/ipfs/go-ipfs.git

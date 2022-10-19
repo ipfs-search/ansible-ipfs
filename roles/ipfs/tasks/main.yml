@@ -1,12 +1,12 @@
 ---
 - name: ensure ipfs build
   include_tasks: build.yml
-- name: create ipfs group
+- name: create IPFS group
   group:
     name: "{{ ipfs_group }}"
     system: true
     state: present
-- name: create ipfs user
+- name: create IPFS user
   user:
     name: "{{ ipfs_user }}"
     comment: "go-ipfs daemon"
