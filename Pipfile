@@ -7,6 +7,7 @@ verify_ssl = true
 
 [packages]
 molecule = {extras = ["ansible", "docker", "lint"],version = "*"}
+ansible = "*"
 
 [requires]
 python_version = "3.10"
