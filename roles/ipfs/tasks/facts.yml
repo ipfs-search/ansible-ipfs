@@ -4,7 +4,7 @@
     state: directory
     recurse: yes
     path: /etc/ansible/facts.d
-- name: install IPFS facts
+- name: install facts file
   template:
     src: ipfs.fact
     dest: /etc/ansible/facts.d/ipfs.fact

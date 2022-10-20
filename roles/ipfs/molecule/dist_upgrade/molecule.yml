@@ -13,7 +13,6 @@ platforms:
     override_command: false
     privileged: true
     pre_build_image: true
-  - name: debian-11
     image: "registry.gitlab.com/aussielunix/ansible/molecule-containers/debian:bullseye"
     tmpfs:
       - /run
@@ -31,7 +30,29 @@ platforms:
     pre_build_image: true
 provisioner:
   name: ansible
+  playbooks:
+    create: ../default/create.yml
+    destroy: ../default/destroy.yml
+    prepare: ../default/prepare.yml
+    verify: ../default/verify.yml
+    cleanup: ../default/cleanup.yml
   env:
     ANSIBLE_PIPELINING: "True"
+scenario:
+  test_sequence:
+    - dependency
+    - lint
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    # Can't have idempotence in an upgrade
+    # - idempotence
+    # - side_effect
+    - verify
+    - cleanup
+    - destroy
 verifier:
   name: ansible

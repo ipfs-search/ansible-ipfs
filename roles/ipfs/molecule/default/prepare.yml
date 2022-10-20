@@ -2,12 +2,5 @@
 - name: Prepare
   hosts: all
   tasks:
-    # Make sure package cache is refreshed
-    - name: Update package cache (RedHat)
-      yum:
-        update_cache: true
-      when: ansible_facts['os_family'] == "RedHat"
-    - name: Update package cache (Debian)
-      apt:
-        update_cache: yes
-      when: ansible_facts['os_family'] == "Debian"
+    - name: OS-specific prepare tasks
+      include_tasks: "prepare_{{ ansible_facts['os_family'] | lower }}.yml"

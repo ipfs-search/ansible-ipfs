@@ -31,6 +31,12 @@ platforms:
     pre_build_image: true
 provisioner:
   name: ansible
+  playbooks:
+    create: ../default/create.yml
+    destroy: ../default/destroy.yml
+    prepare: ../default/prepare.yml
+    verify: ../default/verify.yml
+    cleanup: ../default/cleanup.yml
   env:
     ANSIBLE_PIPELINING: "True"
 verifier:

@@ -1,12 +1,12 @@
 ---
-- name: ensure ipfs build
-  include_tasks: build.yml
-- name: create IPFS group
+- name: install ipfs
+  import_tasks: install.yml
+- name: create group '{{ ipfs_group }}'
   group:
     name: "{{ ipfs_group }}"
     system: true
     state: present
-- name: create IPFS user
+- name: create user '{{ ipfs_user }}'
   user:
     name: "{{ ipfs_user }}"
     comment: "go-ipfs daemon"
@@ -16,7 +16,7 @@
     home: "{{ ipfs_path }}"
     create_home: yes
     shell: /usr/sbin/nologin
-- name: initialize IPFS repository
+- name: initialize repository
   command: "{{ ipfs_binary }} init --profile={{ ipfs_profile }}"
   args:
     creates: "{{ ipfs_path }}/version"
@@ -24,17 +24,14 @@
     IPFS_PATH: "{{ ipfs_path }}"
   become: true
   become_user: "{{ ipfs_user }}"
-- include_tasks: udp_receive_buffer.yml
+- import_tasks: udp_receive_buffer.yml
+- name: configure service
+  import_tasks: service.yml
 # Make public/listen IP configurable
 # Do not assume default IP
 # Do not assume IPv6
 # Set ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0])
-- name: configure IPFS service
-  template:
-    src: ipfs.service
-    dest: /etc/systemd/system/ipfs.service
-    mode: 0644
-  notify: restart ipfs
+
 # - name: Ensure sniffer service started
 #   systemd:
 #     name: ipfs-sniffer
@@ -68,14 +65,12 @@
 #     dest: "{{ ipfs_path }}/config"
 #     mode: 0640
 #   notify: restart ipfs
-- name: enable IPFS service
-  systemd:
-    name: ipfs
-    enabled: true
-    state: started
-    daemon_reload: true
-- name: setup IFPS facts
-  include_tasks: facts.yml
+- name: setup facts
+  import_tasks: facts.yml
+- name: call handlers
+  meta: flush_handlers
+- name: verify
+  import_tasks: verify.yml
 # - name: ipfs convenience alias
 #   lineinfile:
 #     path: "{{ ansible_env.PWD }}/.bashrc" # Workaround https://github.com/ansible/ansible/issues/15901

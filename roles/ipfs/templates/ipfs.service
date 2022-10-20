@@ -73,7 +73,7 @@ TimeoutStartSec=infinity
 Type=notify
 User={{ ipfs_user }}
 Group={{ ipfs_group }}
-StateDirectory=ipfs
+StateDirectory={{ ipfs_service_name }}
 Environment=IPFS_PATH="{{ ipfs_path }}"
 ExecStart={{ ipfs_binary }} daemon --init --migrate
 Restart=on-failure

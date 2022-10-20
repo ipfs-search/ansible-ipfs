@@ -9,6 +9,7 @@ verify_ssl = true
 molecule = {extras = ["ansible", "docker", "lint"],version = "*"}
 ansible = "*"
 ansible-lint = "*"
+netaddr = "*"
 
 [requires]
 python_version = "3.10"

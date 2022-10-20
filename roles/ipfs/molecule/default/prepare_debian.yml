@@ -1,0 +1,7 @@
+---
+- name: Update package cache (Debian)
+  apt:
+    update_cache: yes
+- name: Ensure iproute2 is installed # Required for ansible_all_ipv4_addresses
+  apt:
+    name: iproute2

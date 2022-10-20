@@ -1,0 +1,6 @@
+---
+ipfs_local_gateway: "http://127.0.0.1:8080"
+ipfs_remote_gateway: "https://dweb.link"
+ipfs_download_hash_algo: sha512
+ipfs_download_checksum: "{{ ipfs_download_hash_algo }}:{{ ipfs_download_hash }}"
+ipfs_download_timeout: 300

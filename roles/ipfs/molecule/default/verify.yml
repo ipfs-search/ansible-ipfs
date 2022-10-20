@@ -1,10 +1,10 @@
 ---
-# This is an example playbook to execute Ansible tests.
-
 - name: Verify
   hosts: all
-  gather_facts: false
   tasks:
-  - name: Example assertion
-    ansible.builtin.assert:
-      that: true
+  - name: check whether IPFS facts are defined
+    assert:
+      that:
+        - "'ipfs' in ansible_local"
+        - "'ID' in ansible_local['ipfs']"
+        - "ansible_local['ipfs']['ID']"
