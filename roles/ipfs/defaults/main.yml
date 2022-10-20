@@ -4,10 +4,11 @@ ipfs_path: "/var/lib/ipfs"
 ipfs_build_path: "/usr/local/src/go-ipfs"
 ipfs_build_user: "{{ lookup('pipe', 'whoami') }}"
 ipfs_repo: https://github.com/ipfs/kubo.git
+ipfs_repo_treeish: v0.16.0
 ipfs_binary: "/usr/local/bin/ipfs"
 ipfs_user: "ipfs"
 ipfs_group: "ipfs"
 ipfs_memlimit: 2G
-ipfs_profile: badgerds
+ipfs_profile: server
 ipfs_openssl: true
 ipfs_hardened: true
