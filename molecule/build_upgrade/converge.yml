@@ -1,0 +1,21 @@
+---
+- name: Converge
+  hosts: all
+  # Login as non-privileged user, use sudo to become root.
+  remote_user: ansible
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "ipfs 0.15 build"
+      include_role:
+        name: "ipfs"
+      vars:
+        ipfs_build: true
+        ipfs_version: "0.15.0"
+    - name: "ipfs 0.16 upgrade build"
+      include_role:
+        name: "ipfs"
+      vars:
+        ipfs_build: true
+        ipfs_version: "0.16.0"

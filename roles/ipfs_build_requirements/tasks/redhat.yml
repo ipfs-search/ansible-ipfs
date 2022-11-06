@@ -3,5 +3,8 @@
   yum:
     name:
       - "@Development tools"
-      - openssl-devel
     state: present
+- name: Install OpenSSL dev library
+  yum:
+    name: openssl-devel
+  when: ipfs_openssl

@@ -1,9 +1,12 @@
 ---
 - name: Install Debian build requirements
   apt:
-    pkg:
+    name:
       - build-essential
-      - libssl-dev
       - pkg-config
       - git
     state: present
+- name: Install OpenSSL dev library
+  apt:
+    name: libssl-dev
+  when: ipfs_openssl

@@ -1,14 +1,12 @@
-ipfs
-====
+Role Name
+=========
 
-Install and configure IPFS daemon (kubo/go-ipfs). Part of the ansible-ipfs collection made by [ipfs-search.com](https://ipfs-search.com).
+A brief description of the role goes here.
 
 Requirements
 ------------
 
-Python packages:
-
-* netaddr
+Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
 Role Variables
 --------------
@@ -31,13 +29,10 @@ Including an example of how to use your role (for instance, with variables passe
 
 License
 -------
-Dual-licensed under Apache 2.0 and MIT terms:
 
-- Apache License, Version 2.0, ([LICENSE-APACHE](https://github.com/ipfs-search/ansible-ipfs/blob/main/LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
-- MIT license ([LICENSE-MIT](https://github.com/ipfs-search/ansible-ipfs/blob/main/LICENSE-MIT) or http://opensource.org/licenses/MIT)
+BSD
 
 Author Information
 ------------------
 
-Mathijs de Bruin <mathijs@ipfs-search.com>
-
+An optional section for the role authors to include contact information, or a website (HTML is not allowed).

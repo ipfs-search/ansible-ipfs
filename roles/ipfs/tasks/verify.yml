@@ -1,0 +1,35 @@
+---
+- name: get ipfs version
+  command: "{{ ipfs_binary }} --version -n"
+  register: ipfs_version_check
+  environment:
+    IPFS_PATH: "{{ ipfs_path }}"
+  become: true
+  become_user: "{{ ipfs_user }}"
+  changed_when: false
+  ignore_errors: true
+- name: check ipfs version
+  fail:
+    msg: "installed ipfs version {{ ipfs_version_check.stdout }} doesn't match required version {{ ipfs_version }}"
+  when: ipfs_version_check.stdout != ipfs_version
+- name: get service facts
+  service_facts:
+- name: check if service {{ ipfs_service_name }} is running
+  fail:
+    msg: "Service {{ ipfs_service_name }} not defined or running"
+  when:
+    ansible_facts.services[ipfs_service_name + '.service'] is not defined or
+    ansible_facts.services[ipfs_service_name + '.service'].state != "running"
+- name: wait for API at {{ ipfs_api_host }}:{{ ipfs_api_port }}
+  wait_for:
+    host: "{{ ipfs_api_host }}"
+    port: "{{ ipfs_api_port }}"
+    timeout: 30
+- name: ensure unavailability of API through public IP's
+  wait_for:
+    host: "{{ item }}"
+    port: "{{ ipfs_api_port }}"
+    state: stopped
+    timeout: 5
+    msg: "Service {{ ipfs_service_name }} was available on public IP."
+  loop: "{{ ansible_all_ipv4_addresses + ansible_all_ipv6_addresses | ansible.utils.ipaddr('public') }}"
