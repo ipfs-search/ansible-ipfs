@@ -40,7 +40,15 @@ before_script:
 
 molecule:
   stage: test
-  tags:
-    - docker
   script:
-    - pipenv run molecule test
+    - pipenv run molecule test -s $SCENARIO -p $PLATFORM --destroy never
+  parallel:
+    matrix:
+      - SCENARIO:
+        - default
+        - build_openssl
+        - build_upgrade
+        PLATFORM:
+        - ubuntu-20.04
+        - debian-11
+        - rockylinux-9
