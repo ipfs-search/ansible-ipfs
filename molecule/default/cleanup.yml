@@ -5,15 +5,15 @@
   ignore_unreachable: yes
   ignore_errors: yes
   tasks:
-    - name: import vars from role
+    - name: Import vars from role
       import_role:
         name: "ipfs"
         tasks_from: "init.yml"
-    - name: stop ipfs daemon
+    - name: Stop ipfs daemon
       service:
         name: "{{ ipfs_service_name }}"
         state: stopped
-    - name: remove created directories
+    - name: Remove created directories
       file:
         name: "{{ item }}"
         state: absent
@@ -21,7 +21,7 @@
       loop:
         - "{{ ipfs_build_path }}"
         - "{{ ipfs_unarchive_path }}"
-    - name: remove created files
+    - name: Remove created files
       file:
         name: "{{ item }}"
         state: absent

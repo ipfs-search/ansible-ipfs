@@ -1,10 +1,10 @@
 ---
-- name: create install user '{{ ipfs_install_user }}'
+- name: Create install user {{ ipfs_install_user }}
   user:
     name: "{{ ipfs_install_user }}"
     comment: "ipfs install user"
     state: present
-- name: check whether {{ ipfs_binary }} exists # noqa 503
+- name: Check existence of {{ ipfs_binary }}
   # For extra robustness, e.g. when build fails and clone doesn't update
   stat:
     path: "{{ ipfs_binary }}"
@@ -12,9 +12,9 @@
     get_checksum: false
     get_mime: false
   register: ipfs_binary_stat
-- name: install from build
+- name: Install from build
   include_tasks: install_build.yml
   when: ipfs_build
-- name: install from dist
+- name: Install from dist
   include_tasks: install_dist.yml
   when: not ipfs_build

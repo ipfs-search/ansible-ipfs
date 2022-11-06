@@ -1,4 +1,5 @@
-- include_tasks: "{{ ansible_facts['os_family'] | lower }}.yml" # noqa unnamed-task
+- name: Install OS-specific build dependencies
+  include_tasks: "{{ ansible_facts['os_family'] | lower }}.yml"
 - name: Ensure golang's available for building
   include_role:
     name: golang

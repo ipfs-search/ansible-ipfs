@@ -6,9 +6,10 @@
     get_checksum: false
     get_mime: false
   register: ipfs_receive_buffer_proc
-- block:
-  # Debian doesn't have sysctl installed by default
-  - name: sysctl installed
+- name: Install sysctl
+  when: ipfs_receive_buffer_proc.stat.exists
+  block:
+  - name: Install sysctl
     package:
       name: procps
     when: ansible_facts['distribution'] == "Debian"
@@ -18,4 +19,3 @@
       value: "2500000"
       state: present
     notify: restart ipfs
-  when: ipfs_receive_buffer_proc.stat.exists

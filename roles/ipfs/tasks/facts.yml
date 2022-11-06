@@ -1,16 +1,13 @@
 ---
-- name: create Ansible facts.d directory
+- name: Create Ansible facts.d directory
   ansible.builtin.file:
     state: directory
     recurse: yes
     path: /etc/ansible/facts.d
-- name: install facts file
+- name: Install Ansible facts file
   template:
     src: ipfs.fact
     dest: /etc/ansible/facts.d/ipfs.fact
     mode: 0755
   register: ipfs_facts
-- name: re-read facts after adding # noqa 503
-  setup:
-    filter: ansible_local
-  when: ipfs_facts.changed
+  notify: Re-read Ansible local facts

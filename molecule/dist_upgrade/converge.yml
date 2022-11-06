@@ -7,13 +7,13 @@
   become_user: root
   become_method: sudo
   tasks:
-    - name: "install ipfs 0.15 dist"
+    - name: "Install kubo 0.15 dist."
       include_role:
         name: "ipfs"
       vars:
         ipfs_version: "0.15.0"
         ipfs_download_cid: "QmdVRTMRe9HiWBiFbyHveM4mKpKqvifo9CBEuTSGNuBgKZ"
         ipfs_download_hash: "b055f80efcb7aa9eef2ad9ef3bf0f26d46efd9762b6b094781c7b435bd78ec4900aaf5dbdd6f0aefde2c1b0dbf297ce7bdb3b974d9234fe0527bd39703240553"
-    - name: "upgrade to latest/default ipfs"
+    - name: "Upgrade to latest/default kubo."
       include_role:
         name: "ipfs"

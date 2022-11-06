@@ -38,7 +38,18 @@ before_script:
   - pipenv run ansible --version
   - pipenv run molecule --version
 
-molecule:
+stages:
+  - lint
+  - test
+
+lint:
+  stage: lint
+  script:
+    - pipenv run yamllint .
+    - pipenv run ansible-lint .
+    - pipenv run flake8
+
+test:
   stage: test
   script:
     - pipenv run molecule test -s $SCENARIO -p $PLATFORM --destroy never

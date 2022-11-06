@@ -7,6 +7,6 @@
   become_user: root
   become_method: sudo
   tasks:
-    - name: "install ipfs with defaults"
+    - name: "Install kubo with defaults."
       include_role:
         name: "ipfs"

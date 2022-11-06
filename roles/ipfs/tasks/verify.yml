@@ -1,5 +1,5 @@
 ---
-- name: get ipfs version
+- name: Get ipfs version
   command: "{{ ipfs_binary }} --version -n"
   register: ipfs_version_check
   environment:
@@ -8,24 +8,24 @@
   become_user: "{{ ipfs_user }}"
   changed_when: false
   ignore_errors: true
-- name: check ipfs version
+- name: Check ipfs version
   fail:
     msg: "installed ipfs version {{ ipfs_version_check.stdout }} doesn't match required version {{ ipfs_version }}"
   when: ipfs_version_check.stdout != ipfs_version
-- name: get service facts
+- name: Get service facts
   service_facts:
-- name: check if service {{ ipfs_service_name }} is running
+- name: Check whether service is running {{ ipfs_service_name }}
   fail:
     msg: "Service {{ ipfs_service_name }} not defined or running"
   when:
     ansible_facts.services[ipfs_service_name + '.service'] is not defined or
     ansible_facts.services[ipfs_service_name + '.service'].state != "running"
-- name: wait for API at {{ ipfs_api_host }}:{{ ipfs_api_port }}
+- name: Wait for API at {{ ipfs_api_host }}:{{ ipfs_api_port }} # noqa name[template]
   wait_for:
     host: "{{ ipfs_api_host }}"
     port: "{{ ipfs_api_port }}"
     timeout: 30
-- name: ensure unavailability of API through public IP's
+- name: Ensure unavailability of API through public IP's
   wait_for:
     host: "{{ item }}"
     port: "{{ ipfs_api_port }}"

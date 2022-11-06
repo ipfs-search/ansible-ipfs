@@ -1,6 +1,9 @@
 ---
-- name: restart ipfs
+- name: Restart ipfs
   systemd:
     name: "{{ ipfs_service_name }}"
     state: restarted
     daemon_reload: true
+- name: Re-read Ansible local facts
+  setup:
+    filter: ansible_local

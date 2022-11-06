@@ -10,6 +10,7 @@ molecule = {extras = ["ansible", "docker", "lint"],version = "*"}
 ansible = "*"
 ansible-lint = "*"
 netaddr = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.10"

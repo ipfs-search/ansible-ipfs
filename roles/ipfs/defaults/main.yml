@@ -23,5 +23,5 @@ ipfs_gopath: "{{ ansible_local.golang.general.home }}"
 # v0.16.0 amd64 linux, change this to install a different version
 ipfs_download_cid: "QmeFkiL5jWMB3XsrUp7mrfZ93nQUKA8dvEhduqmjFchb2w"
 ipfs_download_hash: "e77b33c163ba796530876b38999f04d1d71b43e4b0739854da3df71a0bb8d66451ea736d56ab3d5aa4d2a530cca9783fbb200701651febcf7616e41fa684f118"
-ipfs_download_fallback_url: "https://github.com/ipfs/kubo/releases/download/v{{ ipfs_version  }}/kubo_v{{ ipfs_version }}_linux-amd64.tar.gz"
+ipfs_download_fallback_url: "https://github.com/ipfs/kubo/releases/download/v{{ ipfs_version }}/kubo_v{{ ipfs_version }}_linux-amd64.tar.gz"
 ipfs_install_build_requirements: true
