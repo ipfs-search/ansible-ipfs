@@ -1,4 +1,5 @@
 # ansible-ipfs
+[![pipeline status](https://gitlab.com/ipfs-search.com/ansible-ipfs/badges/main/pipeline.svg)](https://gitlab.com/ipfs-search.com/ansible-ipfs/commits/main)
 Ansible collection for IPFS.
 
 ## Testing
