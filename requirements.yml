@@ -2,4 +2,4 @@
 roles:
   - name: golang
     src: gantsign.golang
-    version: 2.9.1
+    version: 3.0.4
