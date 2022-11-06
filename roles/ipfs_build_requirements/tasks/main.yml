@@ -3,4 +3,6 @@
   include_role:
     name: golang
     public: yes
-  when: ansible_local.golang.general.home is not defined
+  vars:
+    golang_version: "{{ ipfs_build_golang_version }}"
+  when: ansible_local.golang.general.version is not defined or ansible_local.golang.general.version != ipfs_build_golang_version
