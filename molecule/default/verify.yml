@@ -2,16 +2,7 @@
 - name: Verify
   hosts: all
   tasks:
-  - name: Check whether IPFS gateway is listening
-    wait_for:
-      port: 8080
-      delay: 5
-      timeout: 30
-  - name: Check whether IPFS API is listening
-    wait_for:
-      port: 5001
-      timeout: 15
-  - name: Check whether IPFS facts are defined
+  - name: check whether IPFS facts are defined
     assert:
       that:
         - "'ipfs' in ansible_local"

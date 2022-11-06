@@ -1,7 +1,12 @@
 ---
 - name: Converge
   hosts: all
-  vars:
-    ipfs_build_user: ipfs_build
-  roles:
-    - ipfs
+  # Login as non-privileged user, use sudo to become root.
+  remote_user: ansible
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "install ipfs with defaults"
+      include_role:
+        name: "ipfs"
