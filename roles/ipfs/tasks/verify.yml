@@ -25,7 +25,7 @@
     host: "{{ ipfs_api_host }}"
     port: "{{ ipfs_api_port }}"
     timeout: 30
-- name: Ensure unavailability of API through public IP's
+- name: Ensure unavailability of API through public IP's # noqa jinja[invalid]
   wait_for:
     host: "{{ item }}"
     port: "{{ ipfs_api_port }}"
