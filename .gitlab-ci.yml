@@ -46,7 +46,7 @@ lint:
   stage: lint
   script:
     - pipenv run yamllint .
-    - pipenv run ansible-lint .
+    - pipenv run ansible-lint roles playbooks
     - pipenv run flake8
 
 test:
