@@ -30,4 +30,4 @@
     owner: root
     group: root
   when: ipfs_unarchive is changed
-  notify: restart ipfs
+  notify: Restart ipfs

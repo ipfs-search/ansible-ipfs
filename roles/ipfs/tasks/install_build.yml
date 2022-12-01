@@ -46,4 +46,4 @@
       owner: root
       group: root
     become: true
-    notify: restart ipfs
+    notify: Restart ipfs

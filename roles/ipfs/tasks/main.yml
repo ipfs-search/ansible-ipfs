@@ -65,7 +65,7 @@
 #     src: ipfs_config.json
 #     dest: "{{ ipfs_path }}/config"
 #     mode: 0640
-#   notify: restart ipfs
+#   notify: Restart ipfs
 - name: Setup facts
   import_tasks: facts.yml
 - name: Call handlers
