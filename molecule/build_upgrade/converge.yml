@@ -7,13 +7,13 @@
   become_user: root
   become_method: sudo
   tasks:
-    - name: "ipfs 0.15 build"
+    - name: "Build kubo 0.15"
       include_role:
         name: "ipfs"
       vars:
         ipfs_build: true
         ipfs_version: "0.15.0"
-    - name: "ipfs 0.16 upgrade build"
+    - name: "Upgrade to kubo 0.16"
       include_role:
         name: "ipfs"
       vars:

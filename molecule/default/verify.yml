@@ -2,7 +2,7 @@
 - name: Verify
   hosts: all
   tasks:
-  - name: check whether IPFS facts are defined
+  - name: Check whether IPFS facts are defined
     assert:
       that:
         - "'ipfs' in ansible_local"

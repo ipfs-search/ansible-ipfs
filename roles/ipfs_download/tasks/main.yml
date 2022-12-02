@@ -1,45 +1,46 @@
 ---
-- name: attempt IPFS download from {{ ipfs_local_gateway }}
+- name: Attempt IPFS download from {{ ipfs_local_gateway }}
   get_url:
     url: "{{ ipfs_local_gateway }}/ipfs/{{ ipfs_download_cid }}"
     dest: "{{ ipfs_download_path }}"
     checksum: "{{ ipfs_download_checksum }}"
     timeout: "{{ ipfs_download_timeout }}"
+    mode: 0644
   register: ipfs_local_download
   when: ipfs_local_gateway
   ignore_errors: true
-- name: attempt IPFS download from {{ ipfs_remote_gateway }}
+- name: Attempt IPFS download from {{ ipfs_remote_gateway }}
   get_url:
     url: "{{ ipfs_remote_gateway }}/ipfs/{{ ipfs_download_cid }}"
     dest: "{{ ipfs_download_path }}"
     checksum: "{{ ipfs_download_checksum }}"
     timeout: "{{ ipfs_download_timeout }}"
+    mode: 0644
   register: ipfs_remote_download
   when:
     ipfs_remote_gateway
     # ipfs_local_download is failed
   ignore_errors: true
-- name: attempt HTTPS download from {{ ipfs_download_fallback_url }}
+- name: Attempt HTTPS download from {{ ipfs_download_fallback_url }}
   get_url:
     url: "{{ ipfs_download_fallback_url }}"
     dest: "{{ ipfs_download_path }}"
     checksum: "{{ ipfs_download_checksum }}"
     timeout: "{{ ipfs_download_timeout }}"
+    mode: 0644
   register: ipfs_fallback_download
   when:
     ipfs_download_fallback_url is defined and
     ipfs_remote_download is failed
-- name: set ipfs_download fact for local download
+- name: Set ipfs_download fact for local download.
   set_fact:
     ipfs_download: "{{ ipfs_local_download }}"
   when: ipfs_local_download is changed
-- name: set ipfs_download fact for remote download
+- name: Set ipfs_download fact for remote download.
   set_fact:
     ipfs_download: "{{ ipfs_remote_download }}"
   when: ipfs_download is undefined or ipfs_remote_download is changed
-- name: set ipfs_download fact for fallback download
+- name: Set ipfs_download fact for fallback download.
   set_fact:
     ipfs_download: "{{ ipfs_fallback_download }}"
   when: ipfs_download is undefined or ipfs_fallback_download is changed
-- debug:
-    var: ipfs_download

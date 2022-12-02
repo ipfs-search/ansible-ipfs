@@ -1,16 +1,16 @@
 ---
-- name: ensure installation of IPFS build requirements
+- name: Ensure installation of IPFS build requirements
   include_role:
     name: ipfs_build_requirements
     public: yes
   when: ipfs_install_build_requirements
-- name: create build path
+- name: Create build path
   file:
     path: "{{ ipfs_build_path }}"
     state: directory
     mode: 0755
     owner: "{{ ipfs_install_user }}"
-- name: clone go-ipfs
+- name: Clone
   git:
     dest: "{{ ipfs_build_path }}"
     repo: "{{ ipfs_repo }}"
@@ -18,23 +18,26 @@
   register: source
   become: true
   become_user: "{{ ipfs_install_user }}"
-- block:
-  - block:
-    - name: clean go-ipfs
+- name: Build and install
+  when: source.changed or not ipfs_binary_stat.stat.exists
+  block:
+  - name: Make
+    environment:
+      PATH: "{{ ipfs_gopath }}/bin:{{ ansible_env.PATH }}"
+    become: true
+    become_user: "{{ ipfs_install_user }}"
+    block:
+    - name: Clean
       make:
         chdir: "{{ ipfs_build_path }}"
         target: clean
-    - name: make go-ipfs
+    - name: Make
       make:
         chdir: "{{ ipfs_build_path }}"
         params:
           GOTAGS: "{% if ipfs_openssl %}openssl{% endif %}"
         target: build
-    environment:
-      PATH: "{{ ipfs_gopath }}/bin:{{ ansible_env.PATH }}"
-    become: true
-    become_user: "{{ ipfs_install_user }}"
-  - name: install '{{ ipfs_binary }}'
+  - name: Install {{ ipfs_binary }}
     copy:
       src: "{{ ipfs_build_path }}/cmd/ipfs/ipfs"
       dest: "{{ ipfs_binary }}"
@@ -43,5 +46,4 @@
       owner: root
       group: root
     become: true
-    notify: restart ipfs
-  when: source.changed or not ipfs_binary_stat.stat.exists
+    notify: Restart ipfs

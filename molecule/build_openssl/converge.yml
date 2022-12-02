@@ -7,7 +7,7 @@
   become_user: root
   become_method: sudo
   tasks:
-    - name: "install ipfs with openssl & build"
+    - name: "Install ipfs with openssl & build."
       include_role:
         name: "ipfs"
       vars:

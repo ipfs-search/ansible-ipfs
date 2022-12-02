@@ -1,6 +1,9 @@
-- include_tasks: "{{ ansible_facts['os_family'] | lower }}.yml" # noqa unnamed-task
+- name: Install OS-specific build dependencies
+  include_tasks: "{{ ansible_facts['os_family'] | lower }}.yml"
 - name: Ensure golang's available for building
   include_role:
     name: golang
     public: yes
-  when: ansible_local.golang.general.home is not defined
+  vars:
+    golang_version: "{{ ipfs_build_golang_version }}"
+  when: ansible_local.golang.general.version is not defined or ansible_local.golang.general.version != ipfs_build_golang_version

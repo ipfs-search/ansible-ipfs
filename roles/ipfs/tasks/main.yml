@@ -1,12 +1,12 @@
 ---
-- name: install ipfs
+- name: Install
   import_tasks: install.yml
-- name: create group '{{ ipfs_group }}'
+- name: Create group {{ ipfs_group }}
   group:
     name: "{{ ipfs_group }}"
     system: true
     state: present
-- name: create user '{{ ipfs_user }}'
+- name: Create user {{ ipfs_user }}
   user:
     name: "{{ ipfs_user }}"
     comment: "go-ipfs daemon"
@@ -16,7 +16,7 @@
     home: "{{ ipfs_path }}"
     create_home: yes
     shell: /usr/sbin/nologin
-- name: initialize repository
+- name: Initialize repository
   command: "{{ ipfs_binary }} init --profile={{ ipfs_profile }}"
   args:
     creates: "{{ ipfs_path }}/version"
@@ -24,8 +24,9 @@
     IPFS_PATH: "{{ ipfs_path }}"
   become: true
   become_user: "{{ ipfs_user }}"
-- import_tasks: udp_receive_buffer.yml
-- name: configure service
+- name: Set UDP receive buffer
+  import_tasks: udp_receive_buffer.yml
+- name: Configure service
   import_tasks: service.yml
 # Make public/listen IP configurable
 # Do not assume default IP
@@ -64,12 +65,12 @@
 #     src: ipfs_config.json
 #     dest: "{{ ipfs_path }}/config"
 #     mode: 0640
-#   notify: restart ipfs
-- name: setup facts
+#   notify: Restart ipfs
+- name: Setup facts
   import_tasks: facts.yml
-- name: call handlers
+- name: Call handlers
   meta: flush_handlers
-- name: verify
+- name: Verify installation
   import_tasks: verify.yml
 # - name: ipfs convenience alias
 #   lineinfile:

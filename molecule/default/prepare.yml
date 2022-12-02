@@ -3,4 +3,4 @@
   hosts: all
   tasks:
     - name: OS-specific prepare tasks
-      include_tasks: "prepare_{{ ansible_facts['os_family'] | lower }}.yml"
+      include_tasks: "tasks/prepare_{{ ansible_facts['os_family'] | lower }}.yml"

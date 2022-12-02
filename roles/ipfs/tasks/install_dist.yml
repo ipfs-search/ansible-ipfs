@@ -1,17 +1,19 @@
 ---
 # TODO: Assert platform is amd64 linux
-- name: create unarchive path
+- name: Create unarchive path
   file:
     path: "{{ ipfs_unarchive_path }}"
     state: directory
     mode: 0755
     owner: "{{ ipfs_install_user }}"
-- name: get IPFS binary
+- name: Get binary
+  become: true
+  become_user: "{{ ipfs_install_user }}"
   block:
-  - name: download dist file
+  - name: Download dist file.
     import_role:
       name: ipfs_download
-  - name: unarchive '{{ ipfs_download_path }}'
+  - name: Unarchive {{ ipfs_download_path }}
     unarchive:
       remote_src: true
       src: "{{ ipfs_download_path }}"
@@ -19,9 +21,7 @@
       include: "{{ ipfs_unarchive_filename }}"
     when: ipfs_download is changed or not ipfs_binary_stat.stat.exists
     register: ipfs_unarchive
-  become: true
-  become_user: "{{ ipfs_install_user }}"
-- name: install '{{ ipfs_binary }}'
+- name: Install {{ ipfs_binary }}
   copy:
     src: "{{ ipfs_unarchive_path }}/{{ ipfs_unarchive_filename }}"
     dest: "{{ ipfs_binary }}"
@@ -30,4 +30,4 @@
     owner: root
     group: root
   when: ipfs_unarchive is changed
-  notify: restart ipfs
+  notify: Restart ipfs

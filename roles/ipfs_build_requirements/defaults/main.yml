@@ -1,2 +1,2 @@
 ---
-# defaults file for ipfs_build_requirements
+ipfs_build_golang_version: 1.19.1

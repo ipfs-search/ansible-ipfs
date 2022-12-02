@@ -1,11 +1,11 @@
 ---
-- name: configure service
+- name: Configure service
   template:
     src: ipfs.service
     dest: "/etc/systemd/system/{{ ipfs_service_name }}.service"
     mode: 0644
-  notify: restart ipfs
-- name: enable service
+  notify: Restart ipfs
+- name: Enable service
   systemd:
     name: "{{ ipfs_service_name }}"
     enabled: true

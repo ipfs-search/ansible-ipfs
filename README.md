@@ -1,8 +1,9 @@
 # ansible-ipfs
+[![pipeline status](https://gitlab.com/ipfs-search.com/ansible-ipfs/badges/main/pipeline.svg)](https://gitlab.com/ipfs-search.com/ansible-ipfs/commits/main)
 Ansible collection for IPFS.
 
 ## Testing
-This collection uses [molecule]() for testing.
+This collection uses [molecule](https://molecule.readthedocs.io/en/latest/) for testing.
 
 ### Install testing dependencies
 1. Install Docker

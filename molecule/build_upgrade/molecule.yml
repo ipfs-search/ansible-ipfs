@@ -39,6 +39,7 @@ provisioner:
     cleanup: ../default/cleanup.yml
   env:
     ANSIBLE_PIPELINING: "True"
+    ANSIBLE_ROLES_PATH: "../../roles"
 verifier:
   name: ansible
 scenario:
