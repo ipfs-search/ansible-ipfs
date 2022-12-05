@@ -1,6 +1,6 @@
 galaxy_info:
   author: Mathijs de Bruin <mathijs@ipfs-search.com>
-  description: Role for installing kubo.
+  description: Role for configuring kubo (former go-ipfs).
   company: ipfs-search.com
 
   issue_tracker_url: https://github.com/ipfs-search/ansible-ipfs/issues
