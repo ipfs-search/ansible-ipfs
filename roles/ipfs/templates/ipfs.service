@@ -1,4 +1,4 @@
-# Source: https://github.com/ipfs/go-ipfs/blob/master/misc/systemd/ipfs-hardened.service
+# Source: https://github.com/ipfs/kubo/blob/master/misc/systemd/ipfs-hardened.service
 #
 # This file will be overwritten on package upgrades, avoid customizations here.
 #
@@ -67,7 +67,7 @@ MemorySwapMax=0
 # badger is recovering) and migrations can delay startup.
 #
 # Ideally, we'd be a bit smarter about this but there's no good way to do that without hooking
-# systemd dependencies deeper into go-ipfs.
+# systemd dependencies deeper into kubo.
 TimeoutStartSec=infinity
 
 Type=notify

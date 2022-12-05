@@ -1,7 +1,7 @@
 ipfs
 ====
 
-Install and configure IPFS daemon (kubo/go-ipfs). Part of the ansible-ipfs collection made by [ipfs-search.com](https://ipfs-search.com).
+Install and configure [kubo](https://github.com/ipfs/kubo) (formerly go-ipfs). Part of the ansible-ipfs collection made by [ipfs-search.com](https://ipfs-search.com).
 
 Requirements
 ------------
