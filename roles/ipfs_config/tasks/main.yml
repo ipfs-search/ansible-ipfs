@@ -22,10 +22,6 @@
     set_fact:
       ipfs_config_current: "{{ ipfs_current_config_cmd.stdout | from_json }}"
   - name: Updating kubo configuration
-    when: item.value != ipfs_config_current[item.key]
-    changed_when: true
-    loop: "{{ ipfs_config | dict2items }}"
-    label: "{{ item.key }}"
     command:
       argv:
         - ipfs
@@ -34,4 +30,7 @@
         - --
         - "{{ item.key }}"
         - "{{ item.value | to_json }}"
+    when: item.value != ipfs_config_current[item.key]
     notify: Restart ipfs
+    changed_when: true
+    loop: "{{ ipfs_config | dict2items }}"

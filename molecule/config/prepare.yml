@@ -1,0 +1,11 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: OS-specific prepare tasks
+      include_tasks: "../default/tasks/prepare_{{ ansible_facts['os_family'] | lower }}.yml"
+    - name: Refresh facts
+      setup:
+    - name: "Install kubo."
+      include_role:
+        name: "ipfs"
