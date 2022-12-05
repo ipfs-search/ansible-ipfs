@@ -23,7 +23,7 @@
   block:
   - name: Make
     environment:
-      PATH: "{{ ipfs_gopath }}/bin:{{ ansible_env.PATH }}"
+      PATH: "{{ ipfs_gohome }}/bin:{{ ansible_env.PATH }}"
     become: true
     become_user: "{{ ipfs_install_user }}"
     block:
