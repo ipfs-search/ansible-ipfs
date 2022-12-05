@@ -1,0 +1,16 @@
+---
+- name: Converge
+  hosts: all
+  # Login as non-privileged user, use sudo to become root.
+  remote_user: ansible
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "Configure kubo"
+      include_role:
+        name: "ipfs_config"
+      vars:
+        ipfs_config:
+          Reprovider:
+            Interval: 10h

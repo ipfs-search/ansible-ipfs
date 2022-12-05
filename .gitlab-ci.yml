@@ -59,6 +59,7 @@ test:
         - default
         - build_openssl
         - build_upgrade
+        - config
         PLATFORM:
         - ubuntu-20.04
         - debian-11

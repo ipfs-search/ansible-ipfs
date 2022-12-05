@@ -1,0 +1,4 @@
+---
+ipfs_user: "ipfs"
+ipfs_path: "/var/lib/ipfs"
+ipfs_binary: "/usr/local/bin/ipfs"

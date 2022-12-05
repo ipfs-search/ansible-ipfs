@@ -1,7 +1,7 @@
-Role Name
+ipfs_config
 =========
 
-A brief description of the role goes here.
+Idempotent configuration of kubo (former go-ipfs).
 
 Requirements
 ------------

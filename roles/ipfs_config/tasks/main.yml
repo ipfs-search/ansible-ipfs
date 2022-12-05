@@ -1,0 +1,36 @@
+---
+- name: Load ipfs role (for restart handler)
+  import_role:
+    name: "ipfs"
+    tasks_from: "init.yml"
+- name: Configuring kubo
+  environment:
+    IPFS_PATH: "{{ ipfs_path }}"
+  become: true
+  become_user: "{{ ipfs_user }}"
+  block:
+  - name: Get current kubo configuration
+    command:
+      argv:
+        - "{{ ipfs_binary }}"
+        - config
+        - show
+    register:
+      ipfs_current_config_cmd
+    changed_when: false
+  - name: Parse kubo configuration
+    set_fact:
+      ipfs_config_current: "{{ ipfs_current_config_cmd.stdout | from_json }}"
+  - name: Updating kubo configuration
+    command:
+      argv:
+        - "{{ ipfs_binary }}"
+        - config
+        - --json
+        - --
+        - "{{ item.key }}"
+        - "{{ item.value | to_json }}"
+    when: item.value != ipfs_config_current[item.key]
+    notify: Restart ipfs
+    changed_when: true
+    loop: "{{ ipfs_config | dict2items }}"
