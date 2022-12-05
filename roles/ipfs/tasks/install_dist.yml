@@ -1,11 +1,17 @@
 ---
-# TODO: Assert platform is amd64 linux
 - name: Create unarchive path
   file:
     path: "{{ ipfs_unarchive_path }}"
     state: directory
     mode: 0755
     owner: "{{ ipfs_install_user }}"
+- name: Load dist vars
+  include_vars:
+    file: "vars/versions/v{{ ipfs_version }}.json"
+    name: ipfs_dist_version
+- name: Get dist for architecture and platform
+  set_fact:
+    ipfs_dist: "{{ ipfs_dist_version.platforms[ipfs_dist_platform].archs[ipfs_dist_architecture] }}"
 - name: Get binary
   become: true
   become_user: "{{ ipfs_install_user }}"
@@ -13,6 +19,9 @@
   - name: Download dist file.
     import_role:
       name: ipfs_download
+    vars:
+      ipfs_download_cid: "{{ ipfs_dist.cid }}"
+      ipfs_download_hash: "{{ ipfs_dist.sha512 }}"
   - name: Unarchive {{ ipfs_download_path }}
     unarchive:
       remote_src: true
