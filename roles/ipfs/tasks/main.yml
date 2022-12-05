@@ -9,7 +9,7 @@
 - name: Create user {{ ipfs_user }}
   user:
     name: "{{ ipfs_user }}"
-    comment: "go-ipfs daemon"
+    comment: "kubo daemon"
     group: "{{ ipfs_group }}"
     system: true
     state: present
