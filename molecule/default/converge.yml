@@ -10,10 +10,3 @@
     - name: "Install kubo with defaults."
       include_role:
         name: "ipfs"
-    - name: "Configure kubo"
-      include_role:
-        name: "ipfs_config"
-      vars:
-        ipfs_config:
-          Reprovider:
-            Interval: 10h
