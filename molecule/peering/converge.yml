@@ -1,0 +1,20 @@
+---
+- name: Converge
+  hosts: all
+  # Login as non-privileged user, use sudo to become root.
+  remote_user: ansible
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "Configure peering for all hosts"
+      include_role:
+        name: "ipfs_peering"
+      vars:
+        ipfs_extra_peers:
+          - ID: QmcFf2FH3CEgTNHeMRGhN7HNHU1EXAxoEk6EFuSyXCsvRE
+            Addrs:
+              - /ip4/127.0.0.1/tcp/3435
+          - ID: QmcFmLd5ySfk2WZuJ1mfSWLDjdmHZq7rSAua4GoeSQfs1z
+            Addrs:
+              - /ip6/2a01:4ff:f0:1e5a::23/tcp/3432

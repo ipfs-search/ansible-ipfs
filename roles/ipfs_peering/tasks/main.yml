@@ -1,0 +1,31 @@
+---
+- name: Gather facts from other nodes
+  setup:
+  delegate_to: "{{ item }}"
+  delegate_facts: true
+  when: ansible_local.ipfs is not defined
+  ignore_unreachable: true
+  loop: "{{ ipfs_peering_hosts }}"
+- name: Set ipfs_peers from peering hosts
+  set_fact:
+    ipfs_peers: |
+      [{% for host in ipfs_peering_hosts if host != inventory_hostname and hostvars[host].ansible_local.ipfs is defined %}
+        {% set ipfs = hostvars[host].ansible_local.ipfs %}
+        {
+          "ID": "{{ ipfs.ID }}",
+          "Addrs": {{ ipfs.Addresses | to_json }}
+        }
+      {% if not loop.last %}, {% endif %}
+      {% endfor %}]
+    cacheable: true
+- name: Add extra peers to ipfs_peers
+  when: ipfs_extra_peers is defined
+  set_fact:
+    ipfs_peers: "{{ ipfs_peers + ipfs_extra_peers }}"
+- name: Configure peers
+  import_role:
+    name: "ipfs_config"
+  vars:
+    ipfs_config:
+      Peering:
+        Peers: "{{ ipfs_peers }}"

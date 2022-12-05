@@ -1,0 +1,19 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: OS-specific prepare tasks
+      include_tasks: "../default/tasks/prepare_{{ ansible_facts['os_family'] | lower }}.yml"
+    - name: Refresh facts
+      setup:
+    - name: Install kubo
+      include_role:
+        name: "ipfs"
+      vars:
+        # Idempotence: prevent addressing side-effects.
+        ipfs_profile: test
+        ipfs_config:
+          Addresses:
+            API: /ip4/127.0.0.1/tcp/5001
+            Swarm:
+              - /ip4/0.0.0.0/udp/4001/quic
