@@ -12,7 +12,7 @@
   - name: Get current kubo configuration
     command:
       argv:
-        - ipfs
+        - "{{ ipfs_binary }}"
         - config
         - show
     register:
@@ -24,7 +24,7 @@
   - name: Updating kubo configuration
     command:
       argv:
-        - ipfs
+        - "{{ ipfs_binary }}"
         - config
         - --json
         - --
