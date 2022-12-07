@@ -32,8 +32,6 @@ platforms:
 provisioner:
   name: ansible
   playbooks:
-    create: ../default/create.yml
-    destroy: ../default/destroy.yml
     prepare: ../default/prepare.yml
     verify: ../default/verify.yml
     cleanup: ../default/cleanup.yml

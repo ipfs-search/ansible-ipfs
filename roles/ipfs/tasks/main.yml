@@ -60,19 +60,17 @@
 #     ipfs_peers: "[{% for host in groups['ipfs'] if host != inventory_hostname %}{\"ID\": \"{{ hostvars[host][\"ipfs_peer_id\"] }}\", \"Addrs\": [\"/ip4/{{ hostvars[host].ansible_default_ipv4.address }}/udp/4001/quic\"]}{% if not loop.last %},{% endif %}{% endfor %}]"
 #     sniffer_heads: "[{% for heads in sniffer_heads.results %}{{ heads['content'].splitlines()[0] }}{% if not loop.last %},{% endif %}{% endfor %}]"
 #     cacheable: yes
-# - name: Render IPFS configuration file
-#   template:
-#     src: ipfs_config.json
-#     dest: "{{ ipfs_path }}/config"
-#     mode: 0640
-#   notify: Restart ipfs
 - name: Setup facts
   import_tasks: facts.yml
+- name: Apply configuration
+  import_role:
+    name: "ipfs_config"
+  when: ipfs_config is defined
 - name: Call handlers
   meta: flush_handlers
 - name: Verify installation
   import_tasks: verify.yml
-# - name: ipfs convenience alias
+# - name: Setup ipfs convenience alias
 #   lineinfile:
 #     path: "{{ ansible_env.PWD }}/.bashrc" # Workaround https://github.com/ansible/ansible/issues/15901
 #     regexp: "^alias ipfs="

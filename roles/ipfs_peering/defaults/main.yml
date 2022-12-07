@@ -1,0 +1,3 @@
+---
+ipfs_peering_hosts: "{{ groups['all'] }}"
+ipfs_peering_verify: true

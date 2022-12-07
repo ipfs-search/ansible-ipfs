@@ -20,16 +20,19 @@
   when:
     ansible_facts.services[ipfs_service_name + '.service'] is not defined or
     ansible_facts.services[ipfs_service_name + '.service'].state != "running"
-- name: Wait for API at {{ ipfs_api_host }}:{{ ipfs_api_port }} # noqa name[template]
-  wait_for:
-    host: "{{ ipfs_api_host }}"
-    port: "{{ ipfs_api_port }}"
-    timeout: 30
-- name: Ensure unavailability of API through public IP's # noqa jinja[invalid]
-  wait_for:
-    host: "{{ item }}"
-    port: "{{ ipfs_api_port }}"
-    state: stopped
-    timeout: 5
-    msg: "Service {{ ipfs_service_name }} was available on public IP."
-  loop: "{{ ansible_all_ipv4_addresses + ansible_all_ipv6_addresses | ansible.utils.ipaddr('public') }}"
+- name: Verify API
+  when: ipfs_verify_api
+  block:
+  - name: Wait for API at {{ ipfs_api_host }}:{{ ipfs_api_port }} # noqa name[template]
+    wait_for:
+      host: "{{ ipfs_api_host }}"
+      port: "{{ ipfs_api_port }}"
+      timeout: 30
+  - name: Ensure unavailability of API through public IP's # noqa jinja[invalid]
+    wait_for:
+      host: "{{ item }}"
+      port: "{{ ipfs_api_port }}"
+      state: stopped
+      timeout: 5
+      msg: "Service {{ ipfs_service_name }} was available on public IP."
+    loop: "{{ ansible_all_ipv4_addresses + ansible_all_ipv6_addresses | ansible.utils.ipaddr('public') }}"
