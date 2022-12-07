@@ -1,0 +1,20 @@
+---
+- name: Call handlers
+  meta: flush_handlers
+- name: Get peers
+  command:
+    argv:
+      - "{{ ipfs_binary }}"
+      - swarm
+      - peering
+      - ls
+  register: ipfs_current_peers
+  environment:
+    IPFS_PATH: "{{ ipfs_path }}"
+  become: true
+  become_user: "{{ ipfs_user }}"
+  changed_when: false
+- name: Assert that peering ID's are in peers
+  assert:
+    that: item.ID in ipfs_current_peers.stdout
+  loop: "{{ ipfs_peers }}"

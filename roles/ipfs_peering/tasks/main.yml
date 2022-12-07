@@ -29,3 +29,6 @@
     ipfs_config:
       Peering:
         Peers: "{{ ipfs_peers }}"
+- name: Verify peers
+  when: ipfs_peering_verify
+  import_tasks: verify.yml
