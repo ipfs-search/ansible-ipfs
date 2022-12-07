@@ -24,3 +24,4 @@ ipfs_install_build_requirements: true
 ipfs_dist_platform: linux
 ipfs_dist_architecture: amd64
 ipfs_download_fallback_url: "https://github.com/ipfs/kubo/releases/download/v{{ ipfs_version }}/kubo_v{{ ipfs_version }}_{{ ipfs_dist_platform }}-{{ ipfs_dist_architecture }}.tar.gz"
+ipfs_verify_api: true
