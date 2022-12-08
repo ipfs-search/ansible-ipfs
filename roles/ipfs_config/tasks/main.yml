@@ -9,18 +9,17 @@
   become: true
   become_user: "{{ ipfs_user }}"
   block:
-  - name: Get current kubo configuration
+  - name: Get current configuration value
     command:
       argv:
         - "{{ ipfs_binary }}"
+        - --enc=json
         - config
-        - show
-    register:
-      ipfs_current_config_cmd
+        - --
+        - "{{ item.key }}"
+    loop: "{{ ipfs_config | dict2items }}"
     changed_when: false
-  - name: Parse kubo configuration
-    set_fact:
-      ipfs_config_current: "{{ ipfs_current_config_cmd.stdout | from_json }}"
+    register: ipfs_current_config_cmd
   - name: Updating kubo configuration
     command:
       argv:
@@ -30,7 +29,9 @@
         - --
         - "{{ item.key }}"
         - "{{ item.value | to_json }}"
-    when: item.value != ipfs_config_current[item.key]
+    when: item.value != (ipfs_current_config_cmd.results[index].stdout | from_json).Value
     notify: Restart ipfs
     changed_when: true
     loop: "{{ ipfs_config | dict2items }}"
+    loop_control:
+      index_var: index

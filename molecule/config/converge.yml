@@ -12,5 +12,6 @@
         name: "ipfs_config"
       vars:
         ipfs_config:
-          Reprovider:
-            Interval: 10h
+          Reprovider.Interval: 10h
+          Swarm:
+            DisableBandwidthMetrics: true
