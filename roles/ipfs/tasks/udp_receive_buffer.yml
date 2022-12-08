@@ -1,5 +1,4 @@
 - name: Check whether we can set networking parameters
-  # This does not work e.g. in Docker
   stat:
     path: /proc/sys/net/core/rmem_max
     get_attributes: false
@@ -7,7 +6,7 @@
     get_mime: false
   register: ipfs_receive_buffer_proc
 - name: Install sysctl
-  when: ipfs_receive_buffer_proc.stat.exists
+  when: ipfs_receive_buffer_proc.stat.exists # This does not work e.g. in Docker
   block:
   - name: Install sysctl
     package:
