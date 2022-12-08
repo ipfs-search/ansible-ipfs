@@ -28,38 +28,6 @@
   import_tasks: udp_receive_buffer.yml
 - name: Configure service
   import_tasks: service.yml
-# Make public/listen IP configurable
-# Do not assume default IP
-# Do not assume IPv6
-# Set ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0])
-
-# - name: Ensure sniffer service started
-#   systemd:
-#     name: ipfs-sniffer
-#     state: started
-#   delegate_to: "{{ item }}"
-#   with_items: "{{ groups['sniffer'] }}"
-#   run_once: True
-# - name: Get sniffer heads for peering
-#   uri:
-#     url: http://127.0.0.1:7779/heads
-#     return_content: true
-#   register: sniffer_heads
-#   delegate_to: "{{ item }}"
-#   with_items: "{{ groups['sniffer'] }}"
-#   when: sniffer_heads is not defined
-#   run_once: True
-# - name: Gather facts from other IPFS nodes
-#   setup:
-#   delegate_to: "{{ item }}"
-#   delegate_facts: True
-#   when: hostvars[item]['ansible_default_ipv4'] is not defined
-#   with_items: "{{ groups['ipfs'] }}"
-# - name: Set sniffer heads and ipfs peers
-#   set_fact:
-#     ipfs_peers: "[{% for host in groups['ipfs'] if host != inventory_hostname %}{\"ID\": \"{{ hostvars[host][\"ipfs_peer_id\"] }}\", \"Addrs\": [\"/ip4/{{ hostvars[host].ansible_default_ipv4.address }}/udp/4001/quic\"]}{% if not loop.last %},{% endif %}{% endfor %}]"
-#     sniffer_heads: "[{% for heads in sniffer_heads.results %}{{ heads['content'].splitlines()[0] }}{% if not loop.last %},{% endif %}{% endfor %}]"
-#     cacheable: yes
 - name: Setup facts
   import_tasks: facts.yml
 - name: Apply configuration

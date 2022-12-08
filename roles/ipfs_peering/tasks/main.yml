@@ -15,7 +15,7 @@
           "ID": "{{ ipfs.ID }}",
           "Addrs": {{ ipfs.Addresses | to_json }}
         }
-      {% if not loop.last %}, {% endif %}
+        {% if not loop.last %}, {% endif %}
       {% endfor %}]
     cacheable: true
 - name: Add extra peers to ipfs_peers
