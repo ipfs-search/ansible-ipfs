@@ -18,6 +18,11 @@ This collection uses [molecule](https://molecule.readthedocs.io/en/latest/) for 
 2. Activate pipenv: `pipenv shell`
 2. Run tests: `molecule test`
 
+Optionally, run a local gateway to speed up IPFS downloads by setting IPFS_GATEWAY. This prevents IPFS from being downloaded again and again.
+
+For example:
+`IPFS_GATEWAY=http://192.168.1.23:8080 molecule test`
+
 ## License
 ansible-ipfs is dual-licensed under Apache 2.0 and MIT terms:
 
