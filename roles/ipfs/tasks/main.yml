@@ -24,16 +24,16 @@
     IPFS_PATH: "{{ ipfs_path }}"
   become: true
   become_user: "{{ ipfs_user }}"
+- name: Apply configuration
+  import_role:
+    name: "ipfs_config"
+  when: ipfs_config is defined
 - name: Set UDP receive buffer
   import_tasks: udp_receive_buffer.yml
 - name: Configure service
   import_tasks: service.yml
 - name: Setup facts
   import_tasks: facts.yml
-- name: Apply configuration
-  import_role:
-    name: "ipfs_config"
-  when: ipfs_config is defined
 - name: Call handlers
   meta: flush_handlers
 - name: Verify installation
