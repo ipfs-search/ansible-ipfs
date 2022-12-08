@@ -1,7 +1,0 @@
----
-- name: Update package cache (RedHat)
-  yum:
-    update_cache: true
-- name: Ensure iproute2 is installed # Required for ansible_all_ipv4_addresses
-  yum:
-    name: iproute

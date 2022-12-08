@@ -34,5 +34,9 @@ provisioner:
   env:
     ANSIBLE_PIPELINING: "True"
     ANSIBLE_ROLES_PATH: "../../roles"
+  inventory:
+    group_vars:
+      all:
+        ipfs_remote_gateway: ${IPFS_GATEWAY:-https://dweb.link}
 verifier:
   name: ansible

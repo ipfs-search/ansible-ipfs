@@ -1,0 +1,11 @@
+---
+- name: Update package cache (Debian)
+  apt:
+    update_cache: yes
+- name: Ensure iproute2 is installed
+  apt:
+    name: iproute2
+  register: iproute_install
+- name: Refresh facts
+  setup:
+  when: iproute_install.changed

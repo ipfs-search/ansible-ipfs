@@ -28,6 +28,9 @@
       host: "{{ ipfs_api_host }}"
       port: "{{ ipfs_api_port }}"
       timeout: 30
+  - name: Installing iproute # Required for ansible_all_ipv4_addresses
+    include_tasks: "install_iproute_{{ ansible_facts['os_family'] | lower }}.yml"
+    when: ansible_all_ipv4_addresses is not defined or ansible_all_ipv6_addresses is not defined
   - name: Ensure unavailability of API through public IP's # noqa jinja[invalid]
     wait_for:
       host: "{{ item }}"
