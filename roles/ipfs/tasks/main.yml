@@ -38,10 +38,9 @@
   meta: flush_handlers
 - name: Verify installation
   import_tasks: verify.yml
-- name: Setup ipfs convenience alias
-  lineinfile:
-    path: "{{ ansible_env.PWD }}/.bashrc" # Workaround https://github.com/ansible/ansible/issues/15901
-    regexp: "^alias ipfs="
-    line: "alias ipfs='sudo -u {{ ipfs_user }} IPFS_PATH={{ ipfs_path }} {{ ipfs_binary }}'"
-  become: false
-  when: ipfs_convenience_alias
+# - name: Setup ipfs convenience alias
+#   lineinfile:
+#     path: "{{ ansible_env.PWD }}/.bashrc" # Workaround https://github.com/ansible/ansible/issues/15901
+#     regexp: "^alias ipfs="
+#     line: "alias ipfs='sudo -u {{ ipfs_user }} IPFS_PATH={{ ipfs_path }} {{ ipfs_binary }}'"
+#   become: false
