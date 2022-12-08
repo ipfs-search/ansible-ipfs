@@ -61,7 +61,7 @@ MemoryLimit={{ ipfs_memlimit }}
 LimitNOFILE=1000000
 
 # don't use swap
-{% if ipfs_hard_disable_swapping and ipfs_cgroup_memory.stat.exists %}
+{% if ipfs_hard_disable_swapping %}
 ExecStartPost=+/bin/bash -c "echo 0 > /sys/fs/cgroup/memory/system.slice/{{ ipfs_service_name }}.service/memory.swappiness"
 {% else %}
 # Doesn't work on some systems.

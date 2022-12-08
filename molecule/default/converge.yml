@@ -10,5 +10,3 @@
     - name: "Install kubo with defaults."
       include_role:
         name: "ipfs"
-      vars:
-        ipfs_hard_disable_swapping: true

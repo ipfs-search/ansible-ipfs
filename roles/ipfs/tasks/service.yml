@@ -1,12 +1,19 @@
 ---
-- name: Check whether we can set systemd memory
-  stat:
-    path: /sys/fs/cgroup/memory
-    get_attributes: false
-    get_checksum: false
-    get_mime: false
-  register: ipfs_cgroup_memory
+- name: Verify whether memory cgroup exists for swap override
   when: ipfs_hard_disable_swapping
+  block:
+  - name: Stat /sys/fs/cgroup/memory/system.slice
+    stat:
+      path: /sys/fs/cgroup/memory/system.slice
+      get_attributes: false
+      get_checksum: false
+      get_mime: false
+    register: ipfs_cgroup_memory
+  - name: Fail unless memory cgroup exists
+    assert:
+      that:
+        - ipfs_cgroup_memory.stat.exists
+      fail_msg: "ipfs_hard_disable_swapping requires memory cgroups to be enabled."
 - name: Configure service
   template:
     src: ipfs.service
