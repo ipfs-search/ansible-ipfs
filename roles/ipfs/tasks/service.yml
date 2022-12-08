@@ -1,4 +1,12 @@
 ---
+- name: Check whether we can set systemd memory
+  stat:
+    path: /sys/fs/cgroup/memory
+    get_attributes: false
+    get_checksum: false
+    get_mime: false
+  register: ipfs_cgroup_memory
+  when: ipfs_hard_disable_swapping
 - name: Configure service
   template:
     src: ipfs.service
