@@ -1,0 +1,11 @@
+---
+- name: Update package cache (RedHat)
+  yum:
+    update_cache: true
+- name: Ensure iproute2 is installed
+  yum:
+    name: iproute
+  register: iproute_install
+- name: Refresh facts
+  setup:
+  when: iproute_install.changed
