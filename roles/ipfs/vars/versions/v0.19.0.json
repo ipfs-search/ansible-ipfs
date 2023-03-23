@@ -1,0 +1,111 @@
+{
+  "id": "kubo",
+  "version": "v0.19.0",
+  "releaseLink": "kubo/v0.19.0",
+  "name": "kubo",
+  "owner": "ipfs",
+  "description": "kubo (go-ipfs) is the earliest and most widely used implementation of IPFS. It includes:\n- an IPFS daemon server\n- extensive command line tooling\n- an HTTP RPC API for controlling the node\n- an HTTP Gateway for serving content to HTTP browsers\n",
+  "date": "March 20, 2023",
+  "platforms": {
+    "darwin": {
+      "name": "darwin Binary",
+      "archs": {
+        "amd64": {
+          "link": "/kubo_v0.19.0_darwin-amd64.tar.gz",
+          "cid": "QmbRnrM3f37P8ttsDB8YaBsbFMtK6PgqDo5cGk9PwYCJzM",
+          "sha512": "a1b70874a9c95bd0ac7fdfc347dfc9b8debe74a6c0f1717de3cee1bad33fb7cf866f827b5ac24aed20b13e3a6fdfcb48b05685e3ae76b7fa8362ce85fc81200c"
+        },
+        "arm64": {
+          "link": "/kubo_v0.19.0_darwin-arm64.tar.gz",
+          "cid": "QmTcUSpTSoKGmFj2fY5qrCML59e2kdBP34SxrbnN1LuGga",
+          "sha512": "ddfda0ad399c4cc74ad5bc8fb286eb2e2cdc3b877648dbf442216e3f7bdbe6ebf31e216079302b952ddb23b8f53a0c4d0610e2194ef06c71b602d4a3d3c06b9f"
+        }
+      }
+    },
+    "freebsd": {
+      "name": "freebsd Binary",
+      "archs": {
+        "386": {
+          "link": "/kubo_v0.19.0_freebsd-386.tar.gz",
+          "cid": "QmQMeQje1jEZVka3VhQQv9ft387pbFf6BFTV4xxyQbwM2L",
+          "sha512": "02dff99353c23e6d09f648687c9bafe23ad543d69ef3f53517034d850c4a7dccf9493fcfa0bc8776f4de8560cfe41da5c4a4ef3e6a1b7e7109dadb4b2a56bc62"
+        },
+        "amd64": {
+          "link": "/kubo_v0.19.0_freebsd-amd64.tar.gz",
+          "cid": "QmcsU3FLnUjvTq18kTzQhmTsNYXwRTZcSBgmqHVSCcEatv",
+          "sha512": "0eebce9b4590ce76ea6245966b4f95e0682649cddb7bd92118e31a47a1ebe184c6a3ffabe04acb23b4ba2b50efd149146eacd972601d73736a17ee096cc95865"
+        },
+        "arm": {
+          "link": "/kubo_v0.19.0_freebsd-arm.tar.gz",
+          "cid": "Qmae5HEzXBnt2ywXdiA4uHfKKJmFQzY4EYghxe48i6Xr4R",
+          "sha512": "066580d322962d2d432921846016cc0033a55500ec1d6ff59525d3bae38890a16280993fbf4e3bfbb007548cf935eb0dcc336b92949ec29d2da4a132c6dd8972"
+        }
+      }
+    },
+    "openbsd": {
+      "name": "openbsd Binary",
+      "archs": {
+        "386": {
+          "link": "/kubo_v0.19.0_openbsd-386.tar.gz",
+          "cid": "QmWxJsCzSGaW1GYh9wiz1dkvRp1BXzwAF26XMnvUaN1RS2",
+          "sha512": "34866cce98785e310a65231c92e0c7dc25e85c2830823de4969cf91f23594375aed3b73f538d7f0506d7807e04118290fc7221656e3fc9bafb020d74e322ce17"
+        },
+        "amd64": {
+          "link": "/kubo_v0.19.0_openbsd-amd64.tar.gz",
+          "cid": "QmQaJ5kTmUVZW4TMStZQu3tsQbfPXrj3Z5styRLJ1mFnTH",
+          "sha512": "a596140cc925bd21b70a92ed5e198f829636dbf58232663345c1445d1561d8fc78f21ded9d9784a90b76911a228f160f7697c183691885319189c93d856e1141"
+        },
+        "arm": {
+          "link": "/kubo_v0.19.0_openbsd-arm.tar.gz",
+          "cid": "QmbnYS7KmPJnkvrCfPV4Tb5ZfMPDLm95WMnR2gtWJQn3sL",
+          "sha512": "efae70ec2f7dbd952f41c330d4aa97f1473eefc6c3239e4d6e9412cbbad438e8ced56f4e9f5b73979ab7bd2f37978cc4f5e7e31a141f641300135fbff09e20a3"
+        }
+      }
+    },
+    "linux": {
+      "name": "linux Binary",
+      "archs": {
+        "386": {
+          "link": "/kubo_v0.19.0_linux-386.tar.gz",
+          "cid": "QmPWStbjyyF8nNmut4216y4d8Hy1gg6X7fMkGqwCrjtfhG",
+          "sha512": "0a0bf39e0a443db72bc8c263bf76c30fbe47d976bc05f8628fb649cb2bf9139b5973b2facb5a2487ed5bc225f82148100a279b662cddc5ebdb29b0b13a0b1f19"
+        },
+        "amd64": {
+          "link": "/kubo_v0.19.0_linux-amd64.tar.gz",
+          "cid": "QmeHG2b6bgGm4cAEnyKoJTPvjKFPjfbvb8cJUXSDGWTHLN",
+          "sha512": "064acfaf4cdd994de8bbac8ac29b827e298d146024f25aaa403993a26710da03e588b242a92f6eb63e3eaebeef6c113d78cfff058458629a955eac81ae21b8f1"
+        },
+        "arm": {
+          "link": "/kubo_v0.19.0_linux-arm.tar.gz",
+          "cid": "QmPryE7vWTNsTUwMFGfLAtJVuo9P5Wm4GJ6MzsiCFb2rVu",
+          "sha512": "ca10eefd63865ea04242cebd57a13b904e199c1be8aa42461fd6f3c15120f2aa9aca9c059899c4eb0d532eb041764fd0d1012b1d6dcbb25b5c6e03c8310017bb"
+        },
+        "arm64": {
+          "link": "/kubo_v0.19.0_linux-arm64.tar.gz",
+          "cid": "QmaypJtwCV5DNVhLsTTgYqtSb9w6kThNmcr2nsy9fruMf2",
+          "sha512": "b4fa76c9a90bc9000c41ee12e6bbd9263795ef03790b0a68a7b104612c03f3c9403bef9aefa4574888ec9b3c99e5444d5f539e8cff32d2f98bc007cf17da4b22"
+        }
+      }
+    },
+    "windows": {
+      "name": "windows Binary",
+      "archs": {
+        "386": {
+          "link": "/kubo_v0.19.0_windows-386.zip",
+          "cid": "QmWeix9niLVdXv5Skbc3cQDxhopfn7sfE1axJjQYV16KgJ",
+          "sha512": "b58626c1b716889250d67d8cb4d8fc1d360c73cef3e663bcc0d84d61f5fe6d6150889433f9fa9aee19055bb5746ae20a3700354c1d365e54b479061a71eb0ef3"
+        },
+        "amd64": {
+          "link": "/kubo_v0.19.0_windows-amd64.zip",
+          "cid": "QmbLjLeMhZqRbw84ETmis4ndNpZxNLVZ1EN2V2v6AeunTn",
+          "sha512": "a3f8abe37ff48d9510519e01bf3102e835f5d2f3907b0146fee0527e1b468d23fc064806e082c2b42493170cb3473417a53b1da540e8f0ff59784782b0ed71a3"
+        }
+      }
+    }
+  },
+  "source": {
+    "link": "/kubo-source.tar.gz",
+    "cid": "QmYYxZww4Sdxa8MuDJUHamtYbhJZmVXWbJpjTGsj38rgX7",
+    "sha512": "37246882d8a9d09e8cff477cd13fefa2f54bc4698c77151f09e3925666c7e445cf29e821708918479ed8b8dc5bfb24c63fe89947114d7d55411260e82f6b5923"
+  }
+}
